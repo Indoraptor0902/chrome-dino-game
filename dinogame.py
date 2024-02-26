@@ -149,12 +149,29 @@ class Dino:
         def __init__(self):
             self.score = 0
             self.sprites = []
+            self.score_image = None
+            self.score_image_width = 0
+            self.score_digit_width = 0
+            self.score_image_height = 0
             self.score_increment = 0
         
         def update_score(self):
             score_str = str(self.score)
             for char in score_str:
-                pass
+                char_num = int(char)
+                sprite = self.SPRITES['numbers'][char_num]
+                self.sprites.append(sprite)
+            
+            for sprite in self.sprites:
+                self.score_image_width += sprite.get_width()
+            
+            self.score_image_height = self.sprites[0].get_height()
+            self.score_digit_width = self.sprites[0].get_width()
+            
+            self.score_image = pygame.Surface((self.score_image_width, self.score_image_height), pygame.SRCALPHA, 32)
+
+            for i in range(len(self.sprites)):
+                self.score_image.blit(sprite, (self.score_digit_width * i, 0))
 
 
 class Obstacle:
