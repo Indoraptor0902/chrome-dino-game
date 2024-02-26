@@ -139,6 +139,13 @@ class Dino:
             win.blit(self.sprite, (self.x, self.y))
         elif self.state == 'duck':
             win.blit(self.sprite, (self.x, self.base_groundy - self.sprite.get_height()))
+    
+    class Score:
+        SPRITES = None
+
+        def __init__(self):
+            self.score = 0
+
 
 class Obstacle:
     SPRITES = load_sprite_sheet('obstacle_sprites')
