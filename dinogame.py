@@ -152,7 +152,9 @@ class Dino:
             self.score_increment = 0
         
         def update_score(self):
-            pass
+            score_str = str(self.score)
+            for char in score_str:
+                pass
 
 
 class Obstacle:
