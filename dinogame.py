@@ -102,7 +102,7 @@ class Dino:
         self.fall_count = 0
         self.state = 'run'
         self.animation_count = 0
-        self.score = 0
+        self.score = self.Score()
     
     def set_xy(self, x, y):
         self.x = x
@@ -158,6 +158,7 @@ class Dino:
         def update_score(self):
             score_str = str(self.score)
             for char in score_str:
+                self.sprites = []
                 char_num = int(char)
                 sprite = self.SPRITES['numbers'][char_num]
                 self.sprites.append(sprite)
@@ -172,6 +173,9 @@ class Dino:
 
             for i in range(len(self.sprites)):
                 self.score_image.blit(sprite, (self.score_digit_width * i, 0))
+        
+        def draw_score(self):
+            win.blit(self.score_image, (0, 0))
 
 
 class Obstacle:
@@ -306,6 +310,9 @@ def main():
         dino.update_sprite()
         dino.draw()
         dino.loop(FPS)
+
+        dino.score.update_score()
+        dino.score.draw_score()
 
         for obstacle in obstacles:
             obstacle.update_sprite()
