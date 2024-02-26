@@ -81,7 +81,7 @@ def collide(obj1, obj2):
 
 
 class Dino:
-    GRAVITY = 2.5
+    GRAVITY = 3
     ANIMATION_DELAY = 5
     SPRITES = load_sprite_sheet('dino_sprites')
 
@@ -95,7 +95,7 @@ class Dino:
         self.groundy = GROUND_LEVEL - (self.sprite.get_height() * 0.7)
         self.x_vel = 0
         self.y_vel = 0
-        self.jump_vel = -15
+        self.jump_vel = -17
         self.fall_count = 0
         self.state = 'run'
         self.animation_count = 0
