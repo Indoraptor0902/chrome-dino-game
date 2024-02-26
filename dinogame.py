@@ -148,6 +148,11 @@ class Dino:
 
         def __init__(self):
             self.score = 0
+            self.sprites = []
+            self.score_increment = 0
+        
+        def update_score(self):
+            pass
 
 
 class Obstacle:
