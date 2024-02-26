@@ -23,6 +23,7 @@ dino_run_spritesheet = 'dino_run.png'
 dino_duck_spritesheet = 'dino_duck.png'
 dino_jump_spritesheet = 'dino_jump.png'
 ptedoractyl_spritesheet = 'pterodactyl_spritesheet.png'
+numbers_spritesheet = 'numbers.png'
 
 ICON = pygame.image.load(join('assets', 'game_logo.png'))
 
@@ -51,6 +52,8 @@ def load_sprite_sheet(dir1):
             num_sprites = 1
         elif image == ptedoractyl_spritesheet:
             num_sprites = 2
+        elif image == numbers_spritesheet:
+            num_sprites = 10
         
         if num_sprites > 0:
             spritesheet = pygame.image.load(join(path, image)).convert_alpha()
@@ -141,7 +144,7 @@ class Dino:
             win.blit(self.sprite, (self.x, self.base_groundy - self.sprite.get_height()))
     
     class Score:
-        SPRITES = None
+        SPRITES = load_sprite_sheet('score_sprites')
 
         def __init__(self):
             self.score = 0
