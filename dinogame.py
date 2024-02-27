@@ -147,7 +147,7 @@ class Dino:
         SPRITES = load_sprite_sheet('score_sprites')
 
         def __init__(self):
-            self.score = 283
+            self.score = 0
             self.sprites = []
             self.score_image = None
             self.score_image_width = 0
@@ -162,6 +162,10 @@ class Dino:
                 char_num = int(char)
                 sprite = self.SPRITES['numbers'][char_num]
                 self.sprites.append(sprite)
+            
+            if len(self.sprites) < 5:
+                for i in range(5 - len(self.sprites)):
+                    self.sprites.insert(0, self.SPRITES['numbers'][0])
             
             for sprite in self.sprites:
                 self.score_image_width += sprite.get_width()
