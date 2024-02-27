@@ -155,6 +155,8 @@ class Dino:
             self.score_digit_width = 0
             self.score_image_height = 0
             self.score_increment = 0
+            self.score_delay = 4
+            self.score_count = 0
         
         def update_score(self):
             score_str = str(self.score)
@@ -177,6 +179,13 @@ class Dino:
 
             for i in range(len(self.sprites)):
                 self.score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
+            
+            self.score_count += 1
+
+            if self.score_count > self.score_delay:
+                self.score_count = 0
+
+            self.score += self.score_count // self.score_delay
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
@@ -221,7 +230,7 @@ class Background:
         self.initialx = x
         self.x = x
         self.y = y
-        self.vel = 10
+        self.vel = 20
         self.ground_image = self.SPRITES['ground'][0]
         self.cloud_image = self.SPRITES['cloud'][0]
         self.sky_state = 'night'
