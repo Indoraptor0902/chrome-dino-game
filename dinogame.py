@@ -323,6 +323,8 @@ def main():
         
         for obstacle in obstacles:
             if collide(dino, obstacle):
+                pygame.display.flip()
+                pygame.event.get()
                 time.sleep(3)
                 run = False
         
