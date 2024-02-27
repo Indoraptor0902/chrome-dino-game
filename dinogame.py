@@ -6,9 +6,10 @@ from os.path import join, isfile
 
 pygame.init()
 
-WIDTH, HEIGHT = 1000, 700
+WIDTH, HEIGHT = 1300, 700
 
 GROUND_LEVEL = HEIGHT * 2/3
+MAX_SKY_HEIGHT = HEIGHT // 8
 
 FPS = 60
 
@@ -167,8 +168,7 @@ class Dino:
                 for i in range(5 - len(self.sprites)):
                     self.sprites.insert(0, self.SPRITES['numbers'][0])
             
-            for sprite in self.sprites:
-                self.score_image_width += sprite.get_width()
+            self.score_image_width = self.SPRITES['numbers'][0].get_width() * len(self.sprites)
             
             self.score_image_height = self.sprites[0].get_height()
             self.score_digit_width = self.sprites[0].get_width()
@@ -179,7 +179,7 @@ class Dino:
                 self.score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
         
         def draw_score(self):
-            win.blit(self.score_image, (0, 0))
+            win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
 
 
 class Obstacle:
@@ -283,7 +283,7 @@ class Background:
             cloud = {
                 'image': self.cloud_image,
                 'x_pos': WIDTH,
-                'y_pos': random.uniform(0, float(GROUND_LEVEL - self.cloud_image.get_height() - 100))
+                'y_pos': random.uniform(MAX_SKY_HEIGHT, float(GROUND_LEVEL - self.cloud_image.get_height() - 100))
             }
             self.clouds.append(cloud)
         
