@@ -147,7 +147,7 @@ class Dino:
         SPRITES = load_sprite_sheet('score_sprites')
 
         def __init__(self):
-            self.score = 0
+            self.score = 283
             self.sprites = []
             self.score_image = None
             self.score_image_width = 0
@@ -157,8 +157,8 @@ class Dino:
         
         def update_score(self):
             score_str = str(self.score)
+            self.sprites = []
             for char in score_str:
-                self.sprites = []
                 char_num = int(char)
                 sprite = self.SPRITES['numbers'][char_num]
                 self.sprites.append(sprite)
@@ -172,7 +172,7 @@ class Dino:
             self.score_image = pygame.Surface((self.score_image_width, self.score_image_height), pygame.SRCALPHA, 32)
 
             for i in range(len(self.sprites)):
-                self.score_image.blit(sprite, (self.score_digit_width * i, 0))
+                self.score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
         
         def draw_score(self):
             win.blit(self.score_image, (0, 0))
