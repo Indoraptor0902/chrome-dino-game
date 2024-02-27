@@ -230,7 +230,7 @@ class Background:
         self.initialx = x
         self.x = x
         self.y = y
-        self.vel = 20
+        self.vel = 10
         self.ground_image = self.SPRITES['ground'][0]
         self.cloud_image = self.SPRITES['cloud'][0]
         self.sky_state = 'night'
