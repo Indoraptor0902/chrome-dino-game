@@ -320,8 +320,8 @@ def main():
         background.draw()
 
         dino.update_sprite()
-        dino.draw()
         dino.loop(FPS)
+        dino.draw()
 
         dino.score.update_score()
         dino.score.draw_score()
