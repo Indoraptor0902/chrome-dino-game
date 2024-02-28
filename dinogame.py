@@ -1,6 +1,7 @@
 import pygame
 import time
 import random
+import math
 from os import listdir
 from os.path import join, isfile
 
@@ -154,12 +155,12 @@ class Dino:
             self.score_image_width = 0
             self.score_digit_width = 0
             self.score_image_height = 0
-            self.score_increment = 0
+            self.score_increment = 0.5
             self.score_delay = 4
             self.score_count = 0
         
         def update_score(self):
-            score_str = str(self.score)
+            score_str = str(int(math.floor(self.score)))
             self.sprites = []
             for char in score_str:
                 char_num = int(char)
@@ -182,10 +183,9 @@ class Dino:
             
             self.score_count += 1
 
-            if self.score_count > self.score_delay:
-                self.score_count = 0
+            self.score += self.score_increment
 
-            self.score += self.score_count // self.score_delay
+            #if math.floor((self.score - self.score_increment) / 100) * 100 < self.score and math.floor((self.score) / 100) * 100 
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
