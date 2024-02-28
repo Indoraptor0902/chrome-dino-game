@@ -181,6 +181,12 @@ class Dino:
 
             self.score += self.score_increment
 
+            high_score_file = open(join('assets', 'high_score.txt'), 'r')
+            previous_high_score = high_score_file.read()
+            if self.score > int(previous_high_score):
+                new_high_score_file = open(join('assets', 'high_score.txt'), 'w')
+                new_high_score_file.write(str(math.floor(self.score)))
+
             if self.score >= math.ceil((self.score - self.score_increment) / 100) * 100 and self.score >= 100:
                 self.score_increment *= 1.1
                 if self.score_increment > 1:
