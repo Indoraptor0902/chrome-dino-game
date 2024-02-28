@@ -155,9 +155,7 @@ class Dino:
             self.score_image_width = 0
             self.score_digit_width = 0
             self.score_image_height = 0
-            self.score_increment = 0.5
-            self.score_delay = 4
-            self.score_count = 0
+            self.score_increment = 0.15
         
         def update_score(self):
             score_str = str(int(math.floor(self.score)))
@@ -180,12 +178,8 @@ class Dino:
 
             for i in range(len(self.sprites)):
                 self.score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
-            
-            self.score_count += 1
 
             self.score += self.score_increment
-
-            #if math.floor((self.score - self.score_increment) / 100) * 100 < self.score and math.floor((self.score) / 100) * 100 
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
