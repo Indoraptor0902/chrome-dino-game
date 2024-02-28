@@ -180,6 +180,11 @@ class Dino:
                 self.score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
 
             self.score += self.score_increment
+
+            if self.score >= math.ceil((self.score - self.score_increment) / 100) * 100 and self.score >= 100:
+                self.score_increment *= 1.1
+                if self.score_increment > 1:
+                    self.score_increment = 1
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
