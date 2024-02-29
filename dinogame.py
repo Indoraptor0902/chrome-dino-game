@@ -239,12 +239,14 @@ class Obstacle:
     def draw(self):
         win.blit(self.sprite, (self.x, self.y))
     
-    def update_sprite(self):
+    def update_sprite(self, background):
         if len(self.SPRITES[self.spritesheet]) > 1:
             sprite_index = (self.animation_count // self.ANIMATION_DELAY) % len(self.SPRITES[self.spritesheet])
             self.sprite = self.SPRITES[self.spritesheet][sprite_index]
 
             self.animation_count += 1
+        
+        self.vel = background.vel
         
         self.x -= self.vel
 
@@ -345,6 +347,12 @@ def main():
 
         background.update_sky()
         background.move()
+
+        if dino.score.score >= math.ceil((dino.score.score - dino.score.score_increment) / 100) * 100 and dino.score.score >= 100:
+            background.vel *= 1.1
+            if background.vel > 20:
+                background.vel = 20
+
         background.draw()
 
         dino.update_sprite()
@@ -356,7 +364,7 @@ def main():
         dino.score.draw_score()
 
         for obstacle in obstacles:
-            obstacle.update_sprite()
+            obstacle.update_sprite(background)
             obstacle.draw()
 
             if obstacle.x + obstacle.sprite.get_width() < 0:
