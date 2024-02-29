@@ -150,7 +150,9 @@ class Dino:
 
         def __init__(self):
             self.score = 0
+            self.high_score = int(open(join('assets', 'high_score.txt'), 'r').read())
             self.sprites = []
+            self.high_score_sprites = []
             self.score_image = None
             self.score_image_width = 0
             self.score_digit_width = 0
@@ -181,19 +183,38 @@ class Dino:
 
             self.score += self.score_increment
 
-            high_score_file = open(join('assets', 'high_score.txt'), 'r')
-            previous_high_score = high_score_file.read()
-            if self.score > int(previous_high_score):
-                new_high_score_file = open(join('assets', 'high_score.txt'), 'w')
-                new_high_score_file.write(str(math.floor(self.score)))
-
             if self.score >= math.ceil((self.score - self.score_increment) / 100) * 100 and self.score >= 100:
                 self.score_increment *= 1.1
                 if self.score_increment > 1:
                     self.score_increment = 1
         
+        def update_high_score(self):
+            high_score_file = open(join('assets', 'high_score.txt'), 'r')
+            previous_high_score = high_score_file.read()
+            if self.score > int(previous_high_score):
+                self.high_score = self.score
+                new_high_score_file = open(join('assets', 'high_score.txt'), 'w')
+                new_high_score_file.write(str(math.floor(self.high_score)))
+            
+            high_score_str = str(int(math.floor(self.high_score)))
+            self.high_score_sprites = []
+            for char in high_score_str:
+                char_num = int(char)
+                sprite = self.SPRITES['numbers'][char_num]
+                self.sprites.append(sprite)
+            
+            if len(self.sprites) < 5:
+                for i in range(5 - len(self.sprites)):
+                    self.sprites.insert(0, self.SPRITES['numbers'][0])
+            
+            self.high_score_image = pygame.Surface((self.score_image_width, self.score_image_height), pygame.SRCALPHA, 32)
+
+            for i in range(len(self.sprites)):
+                self.high_score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
+        
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
+            win.blit(self.high_score_image, (WIDTH - self.score_image.get_width() - self.high_score_image.get_width() - 40, MAX_SKY_HEIGHT - self.high_score_image.get_height()))
 
 
 class Obstacle:
@@ -330,6 +351,7 @@ def main():
         dino.draw()
 
         dino.score.update_score()
+        dino.score.update_high_score()
         dino.score.draw_score()
 
         for obstacle in obstacles:
