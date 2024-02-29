@@ -154,6 +154,7 @@ class Dino:
             self.sprites = []
             self.high_score_sprites = []
             self.score_image = None
+            self.high_score_image = None
             self.score_image_width = 0
             self.score_digit_width = 0
             self.score_image_height = 0
@@ -201,16 +202,16 @@ class Dino:
             for char in high_score_str:
                 char_num = int(char)
                 sprite = self.SPRITES['numbers'][char_num]
-                self.sprites.append(sprite)
+                self.high_score_sprites.append(sprite)
             
-            if len(self.sprites) < 5:
-                for i in range(5 - len(self.sprites)):
-                    self.sprites.insert(0, self.SPRITES['numbers'][0])
+            if len(self.high_score_sprites) < 5:
+                for i in range(5 - len(self.high_score_sprites)):
+                    self.high_score_sprites.insert(0, self.SPRITES['numbers'][0])
             
             self.high_score_image = pygame.Surface((self.score_image_width, self.score_image_height), pygame.SRCALPHA, 32)
 
             for i in range(len(self.sprites)):
-                self.high_score_image.blit(self.sprites[i], (self.score_digit_width * i, 0))
+                self.high_score_image.blit(self.high_score_sprites[i], (self.score_digit_width * i, 0))
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
