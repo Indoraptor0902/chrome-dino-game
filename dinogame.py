@@ -350,8 +350,8 @@ def main():
 
         if dino.score.score >= math.ceil((dino.score.score - dino.score.score_increment) / 100) * 100 and dino.score.score >= 100:
             background.vel *= 1.1
-            if background.vel > 20:
-                background.vel = 20
+            if background.vel > 30:
+                background.vel = 30
 
         background.draw()
 
