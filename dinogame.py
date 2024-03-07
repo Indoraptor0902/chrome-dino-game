@@ -353,6 +353,16 @@ def main():
         elif obstacle.spritesheet == 'pterodactyl_spritesheet':
             obstacle.set_xy(WIDTH, random.choice([dino.groundy - obstacle.height, dino.groundy + (dino.height / 6), GROUND_LEVEL - (obstacle.height * 0.7)]))
         obstacles.append(obstacle)
+    
+    def reset():
+        obstacles = []
+        no_obstacle_counter = 0
+        dino.score.score = 0
+        dino.score.score_increment = 0.15
+        background.vel = 10
+        background.clouds = []
+        background.sky_color = BLACK
+        background.sky_state = 'night'
 
     clock = pygame.time.Clock()
 
@@ -389,7 +399,8 @@ def main():
                 pygame.display.flip()
                 pygame.event.get()
                 time.sleep(3)
-                run = False
+                reset()
+                main_menu()
         
         if random.randint(1, FPS * 1.3) == 1:
             if len(obstacles) == 1:
