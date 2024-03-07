@@ -351,7 +351,7 @@ def main():
         if obstacle.spritesheet != 'pterodactyl_spritesheet':
             obstacle.set_xy(WIDTH, GROUND_LEVEL - (obstacle.height * 0.7))
         elif obstacle.spritesheet == 'pterodactyl_spritesheet':
-            obstacle.set_xy(WIDTH, random.choice([dino.groundy - obstacle.height, dino.groundy + (dino.height / 6), GROUND_LEVEL - (obstacle.height * 0.7)]))
+            obstacle.set_xy(WIDTH, random.choice([GROUND_LEVEL - obstacle.height * 0.8, GROUND_LEVEL - obstacle.height * 1.6, GROUND_LEVEL - obstacle.height * 2.4]))
         obstacles.append(obstacle)
     
     def reset():
