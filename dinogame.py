@@ -344,6 +344,15 @@ def main():
     background = Background(0, GROUND_LEVEL)
 
     obstacles = []
+    no_obstacle_counter = 0
+
+    def add_obstacle():
+        obstacle = Obstacle(background.vel)
+        if obstacle.spritesheet != 'pterodactyl_spritesheet':
+            obstacle.set_xy(WIDTH, GROUND_LEVEL - (obstacle.height * 0.7))
+        elif obstacle.spritesheet == 'pterodactyl_spritesheet':
+            obstacle.set_xy(WIDTH, random.choice([dino.groundy - obstacle.height, dino.groundy + (dino.height / 6), GROUND_LEVEL - (obstacle.height * 0.7)]))
+        obstacles.append(obstacle)
 
     clock = pygame.time.Clock()
 
@@ -385,23 +394,21 @@ def main():
         if random.randint(1, FPS * 1.3) == 1:
             if len(obstacles) == 1:
                 if obstacles[0].x <= WIDTH / 3:
-                    obstacle = Obstacle(background.vel)
-                    if obstacle.spritesheet != 'pterodactyl_spritesheet':
-                        obstacle.set_xy(WIDTH, GROUND_LEVEL - (obstacle.height * 0.7))
-                    elif obstacle.spritesheet == 'pterodactyl_spritesheet':
-                        obstacle.set_xy(WIDTH, random.choice([dino.groundy - obstacle.height, dino.groundy + (dino.height / 6), GROUND_LEVEL - (obstacle.height * 0.7)]))
-                    obstacles.append(obstacle)
+                    add_obstacle()
             elif len(obstacles) == 0:
-                obstacle = Obstacle(background.vel)
-                if obstacle.spritesheet != 'pterodactyl_spritesheet':
-                    obstacle.set_xy(WIDTH, GROUND_LEVEL - (obstacle.height * 0.7))
-                elif obstacle.spritesheet == 'pterodactyl_spritesheet':
-                    obstacle.set_xy(WIDTH, random.choice([dino.groundy - obstacle.height, dino.groundy + (dino.height / 6), GROUND_LEVEL - (obstacle.height * 0.7)]))
-                obstacles.append(obstacle)
+                add_obstacle()
+        
+        if len(obstacles) == 0:
+            no_obstacle_counter += 1
+        else:
+            no_obstacle_counter = 0
+        
+        if no_obstacle_counter >= FPS / 4:
+            add_obstacle()
 
         keys_pressed = pygame.key.get_pressed()
 
-        if keys_pressed[pygame.K_UP] and dino.y == dino.groundy and dino.state != 'duck':
+        if (keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_SPACE]) and dino.y == dino.groundy and dino.state != 'duck':
             dino.jump()
         if keys_pressed[pygame.K_DOWN] and dino.y == dino.groundy:
             dino.state = 'duck'
@@ -424,7 +431,41 @@ def main():
     quit()
 
 
+def main_menu():
+    run = True
+
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(FPS)
+
+        win.fill(BLACK)
+
+        win.blit(ICON, (WIDTH / 2 - ICON.get_width() / 2, HEIGHT / 2 - ICON.get_height()))
+
+        main_font = pygame.font.SysFont('gadugi', 32)
+        start_text = main_font.render('Press space or up to play', True, WHITE)
+        close_text = main_font.render('Press Q to quit', True, WHITE)
+
+        win.blit(start_text, (WIDTH / 2 - start_text.get_width() / 2, HEIGHT / 2 + start_text.get_height() / 2))
+        win.blit(close_text, (WIDTH / 2 - close_text.get_width() / 2, HEIGHT / 2 + close_text.get_height () * 2))
+
+        keys_pressed = pygame.key.get_pressed()
+
+        if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_SPACE]:
+            main()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    quit()
+        
+        pygame.display.flip()
 
 
-main()
+
+
+main_menu()
 
