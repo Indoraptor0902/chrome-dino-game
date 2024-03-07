@@ -208,20 +208,19 @@ class Dino:
                 for i in range(5 - len(self.high_score_sprites)):
                     self.high_score_sprites.insert(0, self.SPRITES['numbers'][0])
             
-            self.high_score_image_width = (self.SPRITES['numbers'][0].get_width() * len(self.high_score_sprites)) + self.SPRITES['high_label'][0].get_width()
+            self.high_score_image_width = (self.SPRITES['numbers'][0].get_width() * len(self.high_score_sprites)) + (self.SPRITES['high_label'][0].get_width() * 2)
                 
             self.high_score_sprites.insert(0, self.SPRITES['high_label'][0])
             
             self.high_score_image = pygame.Surface((self.high_score_image_width, self.score_image_height), pygame.SRCALPHA, 32)
 
             self.high_score_image.blit(self.high_score_sprites[0], (0, 0))
-            for i in range(len(self.high_score_sprites)):
-                if i != 0:
-                    self.high_score_image.blit(self.high_score_sprites[i], ((self.score_digit_width * i) + self.high_score_sprites[0].get_width(), 0))
+            for i in range(1, len(self.high_score_sprites)):
+                self.high_score_image.blit(self.high_score_sprites[i], ((self.score_digit_width * i) + self.high_score_sprites[0].get_width(), 0))
         
         def draw_score(self):
             win.blit(self.score_image, (WIDTH - self.score_image.get_width() - 20, MAX_SKY_HEIGHT - self.score_image.get_height()))
-            win.blit(self.high_score_image, (WIDTH - self.score_image.get_width() - self.high_score_image.get_width() - 40, MAX_SKY_HEIGHT - self.high_score_image.get_height()))
+            win.blit(self.high_score_image, (WIDTH - self.score_image.get_width() - self.high_score_image.get_width() - 20, MAX_SKY_HEIGHT - self.high_score_image.get_height()))
 
 
 class Obstacle:
