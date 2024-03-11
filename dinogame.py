@@ -98,6 +98,7 @@ class Dino:
         self.base_groundy = GROUND_LEVEL + (self.sprite.get_height() * 0.3)
         self.y = 0
         self.groundy = GROUND_LEVEL - (self.sprite.get_height() * 0.7)
+        self.duck_groundy = self.base_groundy - self.SPRITES['dino_duck'][0].get_height()
         self.x_vel = 0
         self.y_vel = 0
         self.jump_vel = -17
@@ -118,7 +119,10 @@ class Dino:
             self.y_vel += (self.fall_count/fps) * self.GRAVITY
             self.fall_count += 2
         else:
-            self.y = self.groundy
+            if self.state == 'run':
+                self.y = self.groundy
+            if self.state == 'duck':
+                self.y = self.duck_groundy
             self.fall_count = 0
         
         self.y += self.y_vel
@@ -128,6 +132,7 @@ class Dino:
             sprites = self.SPRITES['dino_run']
         elif self.state == 'duck':
             sprites = self.SPRITES['dino_duck']
+            self.y = self.duck_groundy
         
         sprite_index = (self.animation_count // self.ANIMATION_DELAY) % len(sprites)
         self.sprite = sprites[sprite_index]
@@ -140,10 +145,7 @@ class Dino:
         self.mask = pygame.mask.from_surface(self.sprite)
     
     def draw(self):
-        if self.state == 'run':
-            win.blit(self.sprite, (self.x, self.y))
-        elif self.state == 'duck':
-            win.blit(self.sprite, (self.x, self.base_groundy - self.sprite.get_height()))
+        win.blit(self.sprite, (self.x, self.y))
     
     class Score:
         SPRITES = load_sprite_sheet('score_sprites')
@@ -421,13 +423,16 @@ def main():
 
         if (keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_SPACE]) and dino.y == dino.groundy and dino.state != 'duck':
             dino.jump()
-        if keys_pressed[pygame.K_DOWN] and dino.y == dino.groundy:
+        if keys_pressed[pygame.K_DOWN] and ((dino.y == dino.groundy and dino.state == 'run') or (dino.y == dino.duck_groundy and dino.state == 'duck')):
             dino.state = 'duck'
         else:
             dino.state = 'run'
         
-        if dino.y > dino.groundy:
+        if dino.y > dino.groundy and dino.state == 'run':
             dino.y = dino.groundy
+            dino.y_vel = 0
+        if dino.y > dino.duck_groundy and dino.state == 'duck':
+            dino.y = dino.duck_groundy
             dino.y_vel = 0
 
         for event in pygame.event.get():
