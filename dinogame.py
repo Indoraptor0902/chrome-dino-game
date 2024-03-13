@@ -402,7 +402,7 @@ def main():
                 pygame.event.get()
                 time.sleep(3)
                 reset()
-                main_menu()
+                restart_menu()
         
         if random.randint(1, FPS * 1.3) == 1:
             if len(obstacles) == 1:
@@ -480,6 +480,34 @@ def main_menu():
         
         pygame.display.flip()
 
+
+def restart_menu():
+    lost = True
+
+    game_over_label = pygame.image.load(join('assets', 'game_over_sprites', 'game_over_label.png'))
+    restart_logo = pygame.image.load(join('assets', 'game_over_sprites', 'restart_logo.png'))
+
+    clock = pygame.time.Clock()
+
+    while lost:
+        clock.tick(FPS)
+
+        win.blit(game_over_label, (WIDTH / 2 - game_over_label.get_width() / 2, HEIGHT / 2 - game_over_label.get_height()))
+        win.blit(restart_logo, (WIDTH / 2 - restart_logo.get_width() / 2, HEIGHT / 2 + restart_logo.get_height() / 2))
+
+        keys_pressed = pygame.key.get_pressed()
+
+        if keys_pressed[pygame.K_UP] or keys_pressed[pygame.K_SPACE]:
+            main()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    quit()
+        
+        pygame.display.flip()
 
 
 
