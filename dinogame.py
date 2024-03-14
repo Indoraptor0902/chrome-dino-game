@@ -84,9 +84,8 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) != None
 
 
-
 class Dino:
-    GRAVITY = 3
+    GRAVITY = 2.8
     ANIMATION_DELAY = 5
     SPRITES = load_sprite_sheet('dino_sprites')
 
@@ -398,9 +397,13 @@ def main():
         
         for obstacle in obstacles:
             if collide(dino, obstacle):
+                dino.sprite = dino.SPRITES['dino_death'][0]
+                if dino.y == dino.duck_groundy:
+                    dino.y = dino.groundy
+                dino.draw()
                 pygame.display.flip()
                 pygame.event.get()
-                time.sleep(3)
+                time.sleep(0.2)
                 reset()
                 restart_menu()
         
